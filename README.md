@@ -4,16 +4,16 @@ An end-to-end system to query real-time MongoDB transactions using natural langu
 
 ## 📋 Overview
 
-**LLMAutomatedDB** is a production-grade application that bridges the gap between natural language and database queries. Users can ask questions in plain English (e.g., "Show all failed transactions from today"), and the system automatically generates and executes safe MongoDB queries without requiring SQL/MongoDB knowledge.
+**LLMAutomatedDB** is a production-grade application that bridges the gap between natural language and database queries. Users can ask questions in plain English (e.g., "Show all failed transactions from Amazon above ₹5000") and get results instantly.
 
-The system uses LLMs (via Groq API) to intelligently translate user intent into MongoDB queries while maintaining strict safety constraints to prevent unauthorized data access or destructive operations.
+The system uses LLMs (via Groq API) to intelligently translate user intent into MongoDB queries while maintaining strict safety constraints to prevent unauthorized data access or destructive operations. It features a modern React frontend, FastAPI backend, and enterprise-grade security.
 
 ## 🏗️ Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                  Frontend (Streamlit)                   │
-│              (Port 8501 - Web Interface)                │
+│                  Frontend (React + Vite)                │
+│              (Port 5173 - Web Console)                  │
 └────────────────────┬────────────────────────────────────┘
                      │ HTTP Request
                      │ (Natural Language Query)
@@ -82,6 +82,8 @@ The system uses LLMs (via Groq API) to intelligently translate user intent into 
 ✅ **Error Handling** - Comprehensive validation and user-friendly error messages
 ✅ **Production-Ready** - Type-safe, validated, and containerized
 ✅ **Indexed Database** - Optimized MongoDB collection with strategic indexes
+✅ **Modern UI** - React + TypeScript + TailwindCSS frontend with SPA routing
+✅ **Cloud Deployment Ready** - Guides for Vercel, Render, and Railway
 
 ## 🚀 Quick Start
 
@@ -244,7 +246,7 @@ LLMAutomatedDB/
 ├── DEPLOYMENT.md               # Detailed deployment guide
 ├── .env.example               # Environment template
 └── README.md                  # This file
-````
+```
 
 ## 🔒 Security Features
 
@@ -325,6 +327,30 @@ GROQ_API_KEY=...
 MAX_RESULTS=100  # Maximum results per query
 ```
 
+## 📚 Deployment
+
+For comprehensive deployment guides covering:
+- **Local Development** (Manual setup)
+- **Docker Compose** (Containerized local)
+- **Vercel** (Frontend hosting)
+- **Render** (Backend hosting)
+- **Railway** (Alternative backend platform)
+
+See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for detailed step-by-step instructions.
+
+## 📖 Documentation
+
+For detailed technical documentation including:
+- System overview and architecture
+- Backend module descriptions
+- LLM prompt engineering details
+- Query validation pipeline
+- Database design and schema
+- API reference
+- Security model
+
+See **[DOCUMENTATION.md](./DOCUMENTATION.md)** for comprehensive technical details.
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to:
@@ -347,7 +373,8 @@ GitHub: [@sakshamsaxena22](https://github.com/sakshamsaxena22)
 - **Groq** - For the Llama 3.1 LLM API
 - **MongoDB** - For the database platform
 - **FastAPI** - For the modern web framework
-- **Streamlit** - For the interactive UI framework
+- **React & Vite** - For the modern frontend stack
+- **Vercel, Render & Railway** - For deployment platforms
 
 ## 📞 Support
 
