@@ -13,7 +13,7 @@ Based on an audit of the files and active network checks, **your database is alr
 Here are the details:
 1. **Cloud Connection Configured**: The backend loads its configuration from `backend/.env` (and root `.env`), which has a pre-configured `MONGODB_URI` pointing to a cloud-hosted **MongoDB Atlas** cluster:
    ```env
-   MONGODB_URI=mongodb+srv://admin:Saksham1234@automateddb.lzbjaei.mongodb.net/?appName=AutomatedDB
+  
    ```
 2. **Active & Reachable**: We verified this connection programmatically. The MongoDB Atlas instance is fully online and accessible.
 3. **Pre-Seeded Databases**: The database cluster is already populated with the necessary collections and seed data:
