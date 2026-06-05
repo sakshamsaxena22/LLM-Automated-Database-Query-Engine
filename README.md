@@ -58,9 +58,11 @@ The system uses LLMs (via Groq API) to intelligently translate user intent into 
 - **Pytest** (7.4.0) - Testing framework
 
 ### Frontend
-- **Streamlit** (1.31.1) - Interactive web UI framework
-- **Requests** (2.31.0) - HTTP client
-- **HTTPX** (0.26.0) - Async HTTP support
+- **React** (19.2) - Modern UI library
+- **Vite** (8.0) - Frontend build tool and development server
+- **TypeScript** - Strong type-safety and static validation
+- **TailwindCSS** (4.0) - Styling framework
+- **Zustand** & **TanStack Query** - Robust application state management
 
 ### Infrastructure
 - **MongoDB** - Document-oriented NoSQL database
@@ -119,7 +121,7 @@ docker compose up --build
 
 This will start:
 - **Backend API**: http://localhost:8000 (FastAPI)
-- **Frontend UI**: http://localhost:8501 (Streamlit)
+- **Frontend UI**: http://localhost:5173 (React Console)
 - **MongoDB**: mongodb://localhost:27017 (if using local)
 
 4. **Seed the database** (optional, if not auto-seeded)
@@ -127,6 +129,8 @@ This will start:
 # The seed data script will run automatically
 # Or manually run:
 docker compose exec backend python -m seed_data.seed_transaction
+# Or for local development from the workspace root:
+python -m backend.seed_data.seed_transaction
 ```
 
 ## 📊 API Endpoints
@@ -182,8 +186,8 @@ docker compose exec backend python -m seed_data.seed_transaction
 
 ## 💡 Usage Examples
 
-### Web Interface (Streamlit)
-1. Open http://localhost:8501
+### Web Interface (React Console)
+1. Open http://localhost:5173
 2. Enter natural language query in the text input
 3. Click "Run Query" button
 4. View generated MongoDB query and results in a formatted table
@@ -225,31 +229,22 @@ Generated: {"filter": {"status": "FAILED", "merchant": "Uber", "amount": {"$gt":
 ```
 LLMAutomatedDB/
 ├── backend/                    # FastAPI Backend
-│   ├── app/
-│   │   ├── main.py            # FastAPI app initialization
-│   │   ├── routes.py          # API endpoints
-│   │   ├── models.py          # Pydantic request/response models
-│   │   ├── config.py          # Configuration & environment loading
-│   │   ├── llm.py             # LLM query generation logic
-│   │   ├── database.py        # MongoDB connection
-│   │   ├── security.py        # Security validation
-│   │   └── validator.py       # Query validation logic
+│   ├── app/                    # API source files (auth, users, ai, crud, database)
+│   ├── prompts/                # Prompt templates (mongo_query_prompt.txt)
+│   ├── seed_data/              # Database seeding scripts (seed_transaction.py)
+│   ├── tests/                  # API test suites & legacy scripts
+│   │   ├── legacy/             # Relocated quick debug scripts
 │   ├── requirements.txt        # Python dependencies
-│   └── Dockerfile            # Container definition
-├── frontend/                   # Streamlit Frontend
-│   ├── app.py                 # Streamlit UI
-│   ├── requirements.txt       # Python dependencies
-│   └── Dockerfile            # Container definition
-├── prompts/                    # LLM Prompts
-│   └── mongo_query_prompt.txt # MongoDB query generation prompt
-├── seed_data/                  # Database Seeding
-│   ├── seed_transaction.py    # Transaction data generator
-│   └── requirements.txt       # Dependencies
-├── docker-compose.yml         # Multi-container orchestration
+│   └── Dockerfile              # Docker container definition
+├── frontend/                   # React Frontend (Vite + TS)
+│   ├── src/                    # UI code (components, pages, routes, state hooks)
+│   ├── Dockerfile              # Container building & deployment (Nginx)
+│   └── nginx.conf              # Nginx server config & API proxy setup
+├── docker-compose.yml          # Multi-container local orchestration
+├── DEPLOYMENT.md               # Detailed deployment guide
 ├── .env.example               # Environment template
 └── README.md                  # This file
-
-```
+````
 
 ## 🔒 Security Features
 
