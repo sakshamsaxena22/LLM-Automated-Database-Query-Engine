@@ -31,6 +31,12 @@ class MongoAdapter(BaseDBAdapter):
     def __init__(self, database: AsyncIOMotorDatabase) -> None:
         self._db = database
 
+    def _collection(self, name: str):
+        """Helper to route collections to their correct database namespace."""
+        if name == "transactions":
+            return self._db.client["payments"]["transactions"]
+        return self._db[name]
+
     # ── Read ──────────────────────────────────────────────────────────
 
     async def find_one(
@@ -39,7 +45,7 @@ class MongoAdapter(BaseDBAdapter):
         filters: Dict[str, Any],
         projection: Optional[Dict[str, Any]] = None,
     ) -> Optional[Dict[str, Any]]:
-        doc = await self._db[collection].find_one(filters, projection)
+        doc = await self._collection(collection).find_one(filters, projection)
         return _serialise_id(doc) if doc else None
 
     async def find_many(
@@ -51,7 +57,7 @@ class MongoAdapter(BaseDBAdapter):
         limit: int = 100,
         skip: int = 0,
     ) -> List[Dict[str, Any]]:
-        cursor = self._db[collection].find(filters, projection)
+        cursor = self._collection(collection).find(filters, projection)
         if sort:
             cursor = cursor.sort(sort)
         cursor = cursor.skip(skip).limit(limit)
@@ -65,7 +71,7 @@ class MongoAdapter(BaseDBAdapter):
         collection: str,
         document: Dict[str, Any],
     ) -> str:
-        result = await self._db[collection].insert_one(document)
+        result = await self._collection(collection).insert_one(document)
         return str(result.inserted_id)
 
     async def insert_many(
@@ -73,7 +79,7 @@ class MongoAdapter(BaseDBAdapter):
         collection: str,
         documents: List[Dict[str, Any]],
     ) -> List[str]:
-        result = await self._db[collection].insert_many(documents)
+        result = await self._collection(collection).insert_many(documents)
         return [str(oid) for oid in result.inserted_ids]
 
     # ── Update ────────────────────────────────────────────────────────
@@ -87,7 +93,7 @@ class MongoAdapter(BaseDBAdapter):
         # Ensure update uses $set if no operator present
         if not any(k.startswith("$") for k in update):
             update = {"$set": update}
-        result = await self._db[collection].update_one(filters, update)
+        result = await self._collection(collection).update_one(filters, update)
         return result.modified_count > 0
 
     async def update_many(
@@ -98,7 +104,7 @@ class MongoAdapter(BaseDBAdapter):
     ) -> int:
         if not any(k.startswith("$") for k in update):
             update = {"$set": update}
-        result = await self._db[collection].update_many(filters, update)
+        result = await self._collection(collection).update_many(filters, update)
         return result.modified_count
 
     # ── Delete ────────────────────────────────────────────────────────
@@ -108,7 +114,7 @@ class MongoAdapter(BaseDBAdapter):
         collection: str,
         filters: Dict[str, Any],
     ) -> bool:
-        result = await self._db[collection].delete_one(filters)
+        result = await self._collection(collection).delete_one(filters)
         return result.deleted_count > 0
 
     async def delete_many(
@@ -116,7 +122,7 @@ class MongoAdapter(BaseDBAdapter):
         collection: str,
         filters: Dict[str, Any],
     ) -> int:
-        result = await self._db[collection].delete_many(filters)
+        result = await self._collection(collection).delete_many(filters)
         return result.deleted_count
 
     # ── Aggregation ───────────────────────────────────────────────────
@@ -126,7 +132,7 @@ class MongoAdapter(BaseDBAdapter):
         collection: str,
         pipeline: List[Dict[str, Any]],
     ) -> List[Dict[str, Any]]:
-        cursor = self._db[collection].aggregate(pipeline)
+        cursor = self._collection(collection).aggregate(pipeline)
         results = await cursor.to_list(length=1000)
         return [_serialise_id(d) for d in results]
 
@@ -137,4 +143,4 @@ class MongoAdapter(BaseDBAdapter):
         collection: str,
         filters: Dict[str, Any],
     ) -> int:
-        return await self._db[collection].count_documents(filters)
+        return await self._collection(collection).count_documents(filters)

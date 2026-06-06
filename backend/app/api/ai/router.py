@@ -74,9 +74,10 @@ async def ai_query(
         mongo_query = translator.translate(iqr)
 
         # 3. Execute
+        target_collection = iqr.entity or body.collection
         if "filter" in mongo_query:
             results = await adapter.find_many(
-                collection=body.collection,
+                collection=target_collection,
                 filters=mongo_query["filter"],
                 projection=mongo_query.get("projection"),
                 sort=mongo_query.get("sort") or None,
@@ -87,7 +88,7 @@ async def ai_query(
             pipeline = mongo_query["pipeline"]
             limit = mongo_query.get("limit", settings.MAX_RESULTS)
             pipeline.append({"$limit": limit})
-            results = await adapter.aggregate(body.collection, pipeline)
+            results = await adapter.aggregate(target_collection, pipeline)
         else:
             raise HTTPException(400, "Unsupported query structure")
 
@@ -98,7 +99,7 @@ async def ai_query(
             user_id=user_id,
             org_id=org_id,
             operation="ai_query",
-            entity=body.collection,
+            entity=target_collection,
             risk_level=iqr.risk_level,
             details={"query": body.query, "result_count": len(results)},
         )

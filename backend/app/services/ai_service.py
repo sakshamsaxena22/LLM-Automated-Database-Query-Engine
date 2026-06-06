@@ -35,10 +35,9 @@ from app.services.cache_service import CacheService
 
 logger = logging.getLogger(__name__)
 
-# ── Load prompt template ──────────────────────────────────────────────
+# ── Load static prompt template ──────────────────────────────────────────────
 _PROMPT_PATH = Path(__file__).resolve().parents[2] / "prompts" / "mongo_query_prompt.txt"
 if not _PROMPT_PATH.exists():
-    # Fall back to project root
     _PROMPT_PATH = Path(__file__).resolve().parents[3] / "prompts" / "mongo_query_prompt.txt"
 
 if _PROMPT_PATH.exists():
@@ -149,6 +148,10 @@ class AIService:
                     data = _extract_json(raw)
                     if data is None:
                         logger.warning("LLM returned non-JSON: %s", raw[:300])
+                        # If the LLM returned a conversational refusal, treat it as a clean safety block
+                        refusal_keywords = ["cannot assist", "i am sorry", "i cannot", "cannot update", "unable to"]
+                        if any(k in raw.lower() for k in refusal_keywords):
+                            raise ValueError("Query cannot be safely generated (operation contains write/modification requests)")
                         raise ValueError("LLM did not return valid JSON")
 
                 if "error" in data:

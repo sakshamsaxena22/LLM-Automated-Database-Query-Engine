@@ -12,8 +12,8 @@ The system uses LLMs (via Groq API) to intelligently translate user intent into 
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                  Frontend (Streamlit)                   │
-│              (Port 8501 - Web Interface)                │
+│              Frontend (React + Vite + TS)               │
+│              (Port 5173 - Web Console)                 │
 └────────────────────┬────────────────────────────────────┘
                      │ HTTP Request
                      │ (Natural Language Query)
