@@ -29,6 +29,11 @@ apiClient.interceptors.response.use(
     const originalRequest = error.config;
 
     if (error.response?.status === 401 && !originalRequest._retry) {
+      // Do not intercept 401s for login/register endpoints to prevent page refresh on invalid credentials
+      if (originalRequest.url?.includes('/auth/login') || originalRequest.url?.includes('/auth/register')) {
+        return Promise.reject(error);
+      }
+
       originalRequest._retry = true;
 
       const refreshToken = localStorage.getItem('refresh_token');
