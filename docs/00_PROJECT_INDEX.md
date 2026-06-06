@@ -198,3 +198,25 @@ The frontend is a React application built with Vite, Tailwind CSS, TypeScript, a
 * [`frontend/src/types/auth.ts`](file:///d:/LLMAutomatedDB/frontend/src/types/auth.ts) - Authentication-specific interface typings
 * [`frontend/src/types/crud.ts`](file:///d:/LLMAutomatedDB/frontend/src/types/crud.ts) - CRUD-specific entity typings
 * [`frontend/src/types/query.ts`](file:///d:/LLMAutomatedDB/frontend/src/types/query.ts) - Query console data interface typings
+
+---
+
+## 4. Documentation Subsystem (`docs/`)
+This folder contains the complete technical documentation, architecture overviews, testing guides, and troubleshooting logs.
+
+* [`docs/00_PROJECT_INDEX.md`](file:///d:/LLMAutomatedDB/docs/00_PROJECT_INDEX.md) - This repository inventory file
+* [`docs/01_FOLDER_ANALYSIS.md`](file:///d:/LLMAutomatedDB/docs/01_FOLDER_ANALYSIS.md) - Directory structure overview
+* [`docs/02_FILE_ANALYSIS_PART_1.md`](file:///d:/LLMAutomatedDB/docs/02_FILE_ANALYSIS_PART_1.md) - Legacy system core files breakdown
+* [`docs/03_FUNCTIONS_PART_1.md`](file:///d:/LLMAutomatedDB/docs/03_FUNCTIONS_PART_1.md) - Critical function definitions and workflows
+* [`docs/03_FUNCTIONS_PART_2.md`](file:///d:/LLMAutomatedDB/docs/03_FUNCTIONS_PART_2.md) - Extended function definitions
+* [`docs/04_DEPENDENCIES.md`](file:///d:/LLMAutomatedDB/docs/04_DEPENDENCIES.md) - Third-party libraries and integrations
+* [`docs/05_ARCHITECTURE.md`](file:///d:/LLMAutomatedDB/docs/05_ARCHITECTURE.md) - High-level system architecture and data flow
+* [`docs/06_AGENT_SYSTEM.md`](file:///d:/LLMAutomatedDB/docs/06_AGENT_SYSTEM.md) - AI Agentic workflow specifications
+* [`docs/07_SECURITY.md`](file:///d:/LLMAutomatedDB/docs/07_SECURITY.md) - Threat models, Auth, and IQR validation rules
+* [`docs/08_PERFORMANCE.md`](file:///d:/LLMAutomatedDB/docs/08_PERFORMANCE.md) - Latency optimizations and caching strategies
+* [`docs/09_DEPLOYMENT.md`](file:///d:/LLMAutomatedDB/docs/09_DEPLOYMENT.md) - Production deployment and environment guide
+* [`docs/10_ROADMAP.md`](file:///d:/LLMAutomatedDB/docs/10_ROADMAP.md) - Future features and technical debt
+* [`docs/11_ONBOARDING.md`](file:///d:/LLMAutomatedDB/docs/11_ONBOARDING.md) - Developer setup guide
+* [`docs/12_RBAC_TESTING_GUIDE.md`](file:///d:/LLMAutomatedDB/docs/12_RBAC_TESTING_GUIDE.md) - Testing instructions for Role-Based Access Control
+* [`docs/13_TROUBLESHOOTING_LOG.md`](file:///d:/LLMAutomatedDB/docs/13_TROUBLESHOOTING_LOG.md) - Records of deployment issues and their solutions
+* [`docs/14_FRONTEND_PORTAL_GUIDE.md`](file:///d:/LLMAutomatedDB/docs/14_FRONTEND_PORTAL_GUIDE.md) - Business logic and security overview for all frontend modules
