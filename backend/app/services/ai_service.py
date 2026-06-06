@@ -148,11 +148,10 @@ class AIService:
                     data = _extract_json(raw)
                     if data is None:
                         logger.warning("LLM returned non-JSON: %s", raw[:300])
-                        # If the LLM returned a conversational refusal, treat it as a clean safety block
-                        refusal_keywords = ["cannot assist", "i am sorry", "i cannot", "cannot update", "unable to"]
-                        if any(k in raw.lower() for k in refusal_keywords):
-                            raise ValueError("Query cannot be safely generated (operation contains write/modification requests)")
-                        raise ValueError("LLM did not return valid JSON")
+                        raise ValueError(
+                            "Forbidden or invalid query: The AI cannot perform write/modification requests "
+                            "and requires a clear database question."
+                        )
 
                 if "error" in data:
                     raise ValueError(data["error"])
