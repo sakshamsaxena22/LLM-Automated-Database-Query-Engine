@@ -39,8 +39,12 @@ async def list_users(
     current_user: Dict[str, Any] = Depends(RoleChecker(["admin", "super_admin"])),
     svc: UserService = Depends(_user_service),
 ):
-    org_id = current_user.get("org_id", "")
-    return await svc.list_users(skip=skip, limit=limit, org_id=org_id or None)
+    if current_user.get("role") == "super_admin":
+        org_id = None
+    else:
+        org_id = current_user.get("org_id", "") or None
+        
+    return await svc.list_users(skip=skip, limit=limit, org_id=org_id)
 
 
 @router.get("/{user_id}")
